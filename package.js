@@ -14,7 +14,7 @@ Npm.depends({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.2.1');
-  api.use('velocity:core', 'server');
+  api.use('velocity:core@0.4.6', 'server');
   api.use('underscore', 'server');
   api.addFiles('pstuart2:velocity-notify.js', 'server');
   api.addFiles('assets/Error.png', 'server');
