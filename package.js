@@ -20,9 +20,3 @@ Package.onUse(function(api) {
   api.addFiles('assets/Error.png', 'server');
   api.addFiles('assets/Success.png', 'server');
 });
-
-//Package.onTest(function(api) {
-//  api.use('tinytest');
-//  api.use('pstuart2:velocity-growl');
-//  api.addFiles('pstuart2:velocity-growl-tests.js');
-//});
