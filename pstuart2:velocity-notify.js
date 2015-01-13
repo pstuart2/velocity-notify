@@ -4,6 +4,7 @@
 'use strict';
 var notifier = Npm.require('node-notifier'),
 		path = Npm.require('path'),
+		fs = Npm.require('fs'),
 		disableVelocityNotify = !!process.env.TEAMCITY_DATA_PATH || !!process.env.DISABLE_VELOCITY_NOTIFY,
 		isDebug = !!process.env.DEBUG_VELOCITY_NOTIFY;
 
@@ -29,22 +30,25 @@ function aggregateResult() {
 	}
 
 	var failed = VelocityTestReports.find({result: 'failed'}).count();
-	var packagePath = path.join(process.env.PWD, 'packages/pstuart2:velocity-notify');
+	var assetPath = path.join(process.env.PWD, '/.meteor/local/build/programs/server/assets/packages/pstuart2_velocity-notify/assets');
+	if (!fs.existsSync(assetPath)) {
+		assetPath = path.join(process.env.PWD, 'packages/pstuart2:velocity-notify/assets');
+	}
 
-	if (isDebug) { console.log('[velocity-notify] Package Path: ' + packagePath); }
+	if (isDebug) { console.log('[velocity-notify] Asset Path: ' + assetPath); }
 	if (isDebug) { console.log('[velocity-notify] Calling notifier, Failed Tests: ' + failed); }
 
 	if (failed > 0) {
 		notifier.notify({
 			title: 'Velocity Errors',
 			message: failed + ' tests failed!',
-			icon: path.join(packagePath, 'assets/Error.png')
+			icon: path.join(assetPath, 'Error.png')
 		});
 	} else {
 		notifier.notify({
 			title: 'Velocity Passed',
 			message: 'All tests passed.',
-			icon: path.join(packagePath, 'assets/Success.png')
+			icon: path.join(assetPath, 'Success.png')
 		});
 	}
 }
