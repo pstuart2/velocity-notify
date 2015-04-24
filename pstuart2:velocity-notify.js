@@ -11,7 +11,7 @@ var notifier = Npm.require('node-notifier'),
 
 function getStatus() {
 	var aggregateComplete = VelocityAggregateReports.findOne({name: 'aggregateComplete'});
-	if (aggregateComplete.result !== 'completed') {
+	if (!aggregateComplete || aggregateComplete.result !== 'completed') {
 		return 'pending';
 	}
 
