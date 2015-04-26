@@ -6,7 +6,7 @@ var notifier = Npm.require('node-notifier'),
 		path = Npm.require('path'),
 		fs = Npm.require('fs'),
 		disableVelocityNotify = !!process.env.TEAMCITY_DATA_PATH || !!process.env.DISABLE_VELOCITY_NOTIFY,
-		isDebug = !!process.env.DEBUG_VELOCITY_NOTIFY;
+		isDebug = true; //!!process.env.DEBUG_VELOCITY_NOTIFY;
 
 
 function getStatus() {
@@ -19,7 +19,12 @@ function getStatus() {
 	return aggregateResult.result;
 }
 
-function aggregateResult() {
+function aggregateResult(c) {
+	if (isDebug) { console.log('[velocity-notify] ' + JSON.stringify(c)); }
+	if (!c || c.name !== 'aggregateComplete' || c.result !== 'completed') {
+		return;
+	}
+
 	var status = getStatus();
 
 	// Don't want to report if pending, wait until we get pass / fail.
@@ -57,7 +62,7 @@ if (!process.env.IS_MIRROR && !disableVelocityNotify) {
 	Meteor.startup(function () {
 		if (isDebug) { console.log('[velocity-notify] Setting up observe.'); }
 		VelocityAggregateReports.find({}).observe({
-			added: aggregateResult,
+			//added: aggregateResult,
 			changed: aggregateResult
 		});
 	});
