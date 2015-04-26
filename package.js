@@ -3,7 +3,7 @@
 Package.describe({
   name: 'pstuart2:velocity-notify',
   summary: 'Adding a simple pass / fail notify reporter to meteor-velocity',
-  version: '0.0.4',
+  version: '0.0.5',
   git: 'https://github.com/pstuart2/velocity-notify',
   debugOnly: true
 });
